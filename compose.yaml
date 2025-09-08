@@ -1,0 +1,17 @@
+name: vector-database
+
+networks:
+  mynet:
+    driver: bridge
+
+services:
+  qdrant:
+    image: qdrant/qdrant:latest
+    restart: always
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    networks:
+      - mynet
+    volumes:
+      - "./qdrant_storage:/qdrant/storage"

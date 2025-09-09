@@ -1,0 +1,33 @@
+name: Python Release
+
+on:
+  push:
+    tags:
+      - "py@v*"
+
+jobs:
+  py-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Build
+        working-directory: data
+        run: uv build
+
+      - name: Publish to PyPI
+        working-directory: data
+        run: uv publish --token ${{ secrets.PYPI_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "data/dist/*"
+          generateReleaseNotes: true

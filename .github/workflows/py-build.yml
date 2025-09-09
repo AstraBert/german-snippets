@@ -1,0 +1,21 @@
+name: Python Build
+
+on:
+  pull_request:
+
+jobs:
+  py-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Set up Python
+        working-directory: data
+        run: uv python install 3.13
+
+      - name: Build package
+        working-directory: data
+        run: uv build

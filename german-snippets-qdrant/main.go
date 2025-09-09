@@ -2,10 +2,15 @@ package main
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"german-snippets-qdrant/embedding"
 	loadjson "german-snippets-qdrant/load_json"
+	"os"
+	"time"
 
+	"github.com/briandowns/spinner"
+	"github.com/common-nighthawk/go-figure"
 	"github.com/qdrant/go-client/qdrant"
 )
 
@@ -25,6 +30,13 @@ func createBatches(data []string, batchSize int) [][]string {
 }
 
 func main() {
+	logo_p1 := figure.NewColorFigure("german", "larry3d", "white", true)
+	logo_p2 := figure.NewColorFigure("-", "larry3d", "red", true)
+	logo_p3 := figure.NewColorFigure("snippets", "larry3d", "yellow", true)
+	logo_p1.Print()
+	logo_p2.Print()
+	logo_p3.Print()
+	fmt.Println()
 	jsonData, errJs := loadjson.LoadJson("german-snippets.json")
 	if errJs != nil {
 		fmt.Println(errJs.Error())
@@ -37,6 +49,9 @@ func main() {
 	fmt.Println("Loaded text content from german-snippets.json")
 	text_batches := createBatches(texts, 100)
 	embds := [][]float64{}
+	fmt.Println("Creating embeddings...")
+	s := spinner.New(spinner.CharSets[11], 100*time.Microsecond)
+	s.Start()
 	for _, batch := range text_batches {
 		embd, errEmbd := embedding.BatchEmbedText(batch)
 		if errEmbd != nil {
@@ -45,11 +60,19 @@ func main() {
 			embds = append(embds, embd...)
 		}
 	}
+	s.Stop()
 	fmt.Printf("Created embeddings for %d text snippets out of %d (%f percent)\n", len(embds), len(texts), (float32(len(embds)) * 100 / float32(len(texts))))
 
 	qdrantClient, errQd := qdrant.NewClient(&qdrant.Config{
-		Host: "localhost",
-		Port: 6334,
+		Host:   os.Getenv("QDRANT_ENDPOINT"),
+		Port:   6334,
+		APIKey: os.Getenv("QDRANT_API_KEY"),
+		UseTLS: true,
+		Cloud:  true,
+		TLSConfig: &tls.Config{
+			MinVersion: tls.VersionTLS13,
+		},
+		SkipCompatibilityCheck: true,
 	})
 
 	if errQd != nil {

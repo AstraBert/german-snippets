@@ -1,23 +1,29 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { Label } from "@/components/ui/label"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Search, BookOpen } from "lucide-react"
-import { Slider } from "@/components/customized/slider/slider"
+import type React from "react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Search, BookOpen } from "lucide-react";
+import { Slider } from "@/components/customized/slider/slider";
 
 export default function HomePage() {
-  const [query, setQuery] = useState("")
-  const [topK, setTopK] = useState(5)
-  const [htmlContent, setHTMLContent] = useState("")
-  const [isProcessing, setIsProcessing] = useState(false)
-  const [error, setError] = useState("")
+  const [query, setQuery] = useState("");
+  const [topK, setTopK] = useState(5);
+  const [htmlContent, setHTMLContent] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSearch = async () => {
     if (query.trim() === "") return;
@@ -34,7 +40,7 @@ export default function HomePage() {
       });
       const data = await res.json();
       setHTMLContent(data.result);
-      setQuery("")
+      setQuery("");
     } catch (err) {
       console.error("Search error:", err);
       setError("Failed to retrieve relevant information. Please try again.");
@@ -44,18 +50,18 @@ export default function HomePage() {
   };
 
   const handleTopKChange = (e: number[]) => {
-    setTopK(e[0])
-  }
+    setTopK(e[0]);
+  };
 
   const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const ques = e.target.value
+    const ques = e.target.value;
     if (ques) {
-      setQuery(ques)
+      setQuery(ques);
     }
-  }
+  };
 
   return (
-    <div className="max-w min-h-screen mx-auto p-6 space-y-6 bg-gradient-to-br from-[#a6ffbe] via-white to-[#75e505]">
+    <div className="max-w min-h-screen mx-auto p-6 space-y-6 bg-gradient-to-br from-[#fffea6] via-white to-[#f2ce04]">
       <div className="text-center space-y-2">
         <h1 className="text-3xl font-bold">German Snippets</h1>
         <p className="text-muted-foreground">
@@ -75,7 +81,11 @@ export default function HomePage() {
             <div className="space-y-4">
               <Search className="w-12 h-12 mx-auto text-muted-foreground" />
               <div className="space-y-2">
-                <Input id="search-docs" value={query} onChange={handleQueryChange} />
+                <Input
+                  id="search-docs"
+                  value={query}
+                  onChange={handleQueryChange}
+                />
               </div>
             </div>
           </div>
@@ -97,7 +107,7 @@ export default function HomePage() {
                 step={1}
                 onValueChange={handleTopKChange}
                 className="w-full"
-                rangeClassName="bg-gradient-to-br from-[#a6ffbe] to-[#75e505]"
+                rangeClassName="bg-gradient-to-br from-[#fffea6] to-[#f2ce04]"
               />
               <div className="flex justify-between text-xs text-muted-foreground mt-1">
                 <span>1</span>
@@ -105,7 +115,10 @@ export default function HomePage() {
               </div>
             </div>
 
-            <Button onClick={handleSearch} className="w-full bg-gradient-to-br from-[#a6ffbe] to-[#75e505] hover:from-[#75e505] hover:to-[#a6ffbe] text-black">
+            <Button
+              onClick={handleSearch}
+              className="w-full bg-gradient-to-br from-[#fffea6] to-[#f2ce04] hover:from-[#f2ce04] hover:to-[#fffea6] text-black"
+            >
               Submit
             </Button>
 
@@ -146,7 +159,7 @@ export default function HomePage() {
                 <div
                   className="prose prose-sm max-w-none dark:prose-invert"
                   dangerouslySetInnerHTML={{
-                    __html: htmlContent
+                    __html: htmlContent,
                   }}
                 />
               </ScrollArea>
@@ -155,5 +168,5 @@ export default function HomePage() {
         </>
       )}
     </div>
-  )
+  );
 }

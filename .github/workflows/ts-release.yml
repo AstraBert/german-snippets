@@ -1,0 +1,38 @@
+name: TS Release
+
+on:
+  push:
+    tags:
+      - "ts@v*"
+
+jobs:
+  ts-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24.4.0"
+
+      - name: Install dependencies
+        working-directory: german-snippets-app
+        run: npm install
+
+      - name: Lint
+        working-directory: german-snippets-app
+        run: npm run lint
+
+      - name: Build
+        working-directory: german-snippets-app
+        run: npm run build
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          generateReleaseNotes: true

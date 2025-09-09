@@ -13,10 +13,10 @@ dependencies = [
 ]
 
 [project.scripts]
-get-german-snippets = "code_snippets_data.main:main"
+get-german-snippets = "german_snippets_data.main:main"
 
 [tool.hatch.build.targets.wheel]
-only-include = ["src/code_snippets_data"]
+only-include = ["src/german_snippets_data"]
 
 [tool.hatch.build.targets.wheel.sources]
 "src" = ""

@@ -80,19 +80,19 @@ repos:
     hooks:
       - id: go-build
         name: go build
-        entry: cd german-snippets-qdrant && go build ./...
+        entry: bash -c "cd german-snippets-qdrant && go build ./..."
         language: system
         files: \.go$
         pass_filenames: false
 
       - id: npm-lint
         name: npm lint
-        entry: cd german-snippets-app && npm run lint
+        entry: bash -c "cd german-snippets-app && npm run lint"
         language: system
         pass_filenames: false
 
       - id: npm-build
         name: npm build
-        entry: cd german-snippets-app && npm run build
+        entry: bash -c "cd german-snippets-app && npm run build"
         language: system
         pass_filenames: false

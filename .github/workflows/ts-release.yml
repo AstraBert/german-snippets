@@ -28,10 +28,6 @@ jobs:
         working-directory: german-snippets-app
         run: npm run lint
 
-      - name: Build
-        working-directory: german-snippets-app
-        run: npm run build
-
       - name: Create GitHub Release
         uses: ncipollo/release-action@v1
         with:

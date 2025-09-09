@@ -1,6 +1,6 @@
 {
   "name": "@cle-does-things/german-snippets-qdrant",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "CLI tool to load german snippets vectors to Qdrant Cloud.",
   "main": "index.js",
   "scripts": {
@@ -32,6 +32,6 @@
   "goBinary": {
     "name": "anydocs",
     "path": "./bin",
-    "url": "https://github.com/AstraBert/german-snippets/releases/download/v{{version}}/german-snippets-qdrant_{{version}}_{{platform}}_{{arch}}.tar.gz"
+    "url": "https://github.com/AstraBert/german-snippets/releases/download/v{{version}}/german-snippets_{{version}}_{{platform}}_{{arch}}.tar.gz"
   }
 }
